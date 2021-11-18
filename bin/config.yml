@@ -1,0 +1,49 @@
+# Connection to SQL database is currently mandatory! Update info
+# to match your database
+sql:
+   host: localhost
+   port: 3306
+   database: playerprofiles
+   username: root
+   password: pwd
+   
+# You cannot change the type of statistic it is, but you can change the
+# display name (using color codes), minecraft item, and slot.
+# For your convenience, first slot is 1 (not 0!) 
+gui:
+   name:
+      title: '&bName:'
+      item: PLAYER_SKULL
+      slot: 5
+   discord:
+      title: '&bDiscord:'
+      item: END_CRYSTAL
+      slot: 14
+   age:
+      title: '&bAge:'
+      item: TOTEM_OF_UNDYING
+      slot: 13
+   first-join:
+      title: '&bFirst Join:'
+      item: COMPASS
+      slot: 15
+   mob-kills:
+      title: '&bMobs Killed:'
+      item: IRON_SWORD
+      slot: 21
+   time-played:
+      title: '&bTotal Time Played:'
+      item: CLOCK
+      slot: 22
+   deaths:
+      title: '&bDeaths:'
+      item: SKELETON_SKULL
+      slot: 23
+   dist-walk:
+      title: '&bDistance Walked:'
+      item: GRASS_BLOCK
+      slot: 24
+   level:
+      title: '&bEnchantment Levels:'
+      item: EMERALD
+      slot: 25

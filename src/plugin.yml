@@ -1,0 +1,11 @@
+name: PlayerProfiles
+version: 1.0
+api-version: 1.16
+author: ForeverInColor
+main: me.foreverincolor.playerprofiles.Main
+
+depend: [PlaceholderAPI]
+
+commands:
+  profile:
+    description: /profile <playername | set age | set discord>
