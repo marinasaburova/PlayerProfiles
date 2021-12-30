@@ -56,7 +56,7 @@ public class ProfileCommands implements CommandExecutor {
 
 				// SET AGE
 				if (args[1].equalsIgnoreCase("age")) {
-					if (args.length == 2) {
+					if (args.length != 3) {
 						p.sendMessage(Utils.chat("&cUsage: /profile set age <number>"));
 						return true;
 					}
@@ -73,14 +73,27 @@ public class ProfileCommands implements CommandExecutor {
 
 				// SET DISCORD LINK
 				if (args[1].equalsIgnoreCase("discord")) {
-					if (args.length == 2) {
-						p.sendMessage(Utils.chat("&cUsage: /profile set Discord <discord-link>"));
+					if (args.length != 3) {
+						p.sendMessage(Utils.chat("&cUsage: /profile set Discord <discord-tag>"));
 						return true;
 					}
 					data.setDiscord(p.getUniqueId(), args[2]);
 					return true;
 				}
+			}
+			
+			// All remove commands
+			if (args[0].equalsIgnoreCase("remove")) {
 
+				// REMOVE DISCORD LINK
+				if (args[1].equalsIgnoreCase("discord")) {
+					if (args.length != 2) {
+						p.sendMessage(Utils.chat("&cUsage: /profile remove Discord"));
+						return true;
+					}
+					data.setDiscord(p.getUniqueId(), "none");
+					return true;
+				}
 			}
 
 			// View others' GUI
