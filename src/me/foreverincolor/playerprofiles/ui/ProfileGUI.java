@@ -60,6 +60,7 @@ public class ProfileGUI implements Listener {
 			Utils.createItem(inv, "age", "&3" + data.getAge(viewing));
 			Utils.createItem(inv, "discord", "&3" + data.getDiscord(viewing));
 		}
+		
 		Utils.createItem(inv, "first-join", "&3" + papi.firstJoin);
 		Utils.createItem(inv, "mob-kills", "&3" + offlineP.getStatistic(Statistic.MOB_KILLS));
 		Utils.createItem(inv, "time-played", "&3"

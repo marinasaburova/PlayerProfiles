@@ -50,7 +50,6 @@ public class Main extends JavaPlugin implements Listener {
 		// PAPI
 		if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
 			System.out.println(Utils.chat("&c&lPlaceholderAPI IS NOT INSTALLED!"));
-
 		}
 
 		// Other modules
