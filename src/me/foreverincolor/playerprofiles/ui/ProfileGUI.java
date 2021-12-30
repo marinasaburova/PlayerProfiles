@@ -40,7 +40,7 @@ public class ProfileGUI implements Listener {
 
 	// Creates GUI of player being viewed
 	public Inventory createProfile(Player p, UUID viewing) {
-		inventory_name = Utils.chat("&b&l>>&3&lProfile Page&b&l<<");
+		inventory_name = Utils.chat(plugin.getConfig().getString("inv-title"));
 		Inventory inv = Bukkit.createInventory(null, 36, inventory_name);
 		ProfileGUI.viewing = viewing;
 		OfflinePlayer offlineP = Bukkit.getOfflinePlayer(viewing);

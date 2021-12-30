@@ -11,7 +11,7 @@ public class ConfigUtils {
 		ConfigUtils.plugin = plugin;
 
 	}
-
+	
 	// Returns item type from config
 	public static String item(String stat) {
 		String item;

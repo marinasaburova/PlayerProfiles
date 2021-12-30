@@ -11,6 +11,7 @@ sql:
 # display name (using color codes), minecraft item, and slot.
 # For your convenience, first slot is 1 (not 0!) 
 gui:
+   inv-title: '&b&l>> &3&lProfile Page &b&l<<'
    name:
       title: '&bName:'
       item: PLAYER_SKULL
