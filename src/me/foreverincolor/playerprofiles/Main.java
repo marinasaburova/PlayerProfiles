@@ -37,19 +37,21 @@ public class Main extends JavaPlugin implements Listener {
 		try {
 			SQL.connect();
 		} catch (ClassNotFoundException | SQLException e) {
-			Bukkit.getLogger().info("Database not connected");
+			Bukkit.getLogger().info(Utils.chat("&cDatabase not connected"));
+			this.getServer().getPluginManager().disablePlugin(this);
 		}
 
 		// Make sure database is connected
 		if (SQL.isConnected()) {
-			Bukkit.getLogger().info("Database is connected!");
+			Bukkit.getLogger().info(Utils.chat("bDatabase is connected!"));
 			data.createTable();
 			this.getServer().getPluginManager().registerEvents(this, this);
 		}
 
 		// PAPI
 		if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
-			System.out.println(Utils.chat("&c&lPlaceholderAPI IS NOT INSTALLED!"));
+			Bukkit.getLogger().info(Utils.chat("&c&lPlaceholderAPI IS NOT INSTALLED!"));
+			this.getServer().getPluginManager().disablePlugin(this);
 		}
 
 		// Other modules
