@@ -24,11 +24,10 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class ProfileGUI implements Listener {
 
 	// Constructor
-	@SuppressWarnings("unused")
 	private static Main plugin;
 	public MySQL SQL;
 	public static SQLGetter data;
-	public static String inventory_name;
+	public static String inventory_name = "Profile Page";
 	public static UUID viewing;
 
 	public ProfileGUI(Main plugin, MySQL SQL, SQLGetter data) {
@@ -40,7 +39,6 @@ public class ProfileGUI implements Listener {
 
 	// Creates GUI of player being viewed
 	public Inventory createProfile(Player p, UUID viewing) {
-		inventory_name = Utils.chat(plugin.getConfig().getString("gui.inv-title"));
 		Inventory inv = Bukkit.createInventory(null, 36, inventory_name);
 		ProfileGUI.viewing = viewing;
 		OfflinePlayer offlineP = Bukkit.getOfflinePlayer(viewing);
@@ -79,7 +77,7 @@ public class ProfileGUI implements Listener {
 	public static void clicked(Player p, UUID viewing, boolean rightClick, int slot, ItemStack clicked, Inventory inv) {
 
 		// DISCORD
-		if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(ConfigUtils.title("discord"))) {
+		if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Utils.chat(ConfigUtils.title("discord")))) {
 
 			// Right click: change discord
 			if (rightClick && p.getUniqueId().equals(viewing)) {
@@ -95,7 +93,7 @@ public class ProfileGUI implements Listener {
 				// Left click: add player
 				p.closeInventory();
 				TextComponent msg = new TextComponent(
-						Utils.chat("&a" + data.getName(viewing) + "&a's Discord: " + data.getDiscord(viewing)));
+						Utils.chat("&b" + data.getName(viewing) + "&a's Discord: " + data.getDiscord(viewing)));
 				msg.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, data.getDiscord(viewing)));
 				msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 						new ComponentBuilder(Utils.chat("&7Click to copy!")).create()));
@@ -110,7 +108,7 @@ public class ProfileGUI implements Listener {
 			if (rightClick && p.getUniqueId().equals(viewing)) {
 				p.closeInventory();
 				TextComponent msg = new TextComponent(
-						Utils.chat("&bUse command: &a/profile set age <number> &bto change your link!"));
+						Utils.chat("&bUse command: &a/profile set age <number> &bto change your age!"));
 				msg.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/profile set age "));
 				msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 						new ComponentBuilder(Utils.chat("&7Click to use command!")).create()));

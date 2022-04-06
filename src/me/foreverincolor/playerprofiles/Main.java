@@ -18,6 +18,7 @@ import me.foreverincolor.playerprofiles.listeners.InventoryClickListener;
 import me.foreverincolor.playerprofiles.listeners.PlayerClickListener;
 import me.foreverincolor.playerprofiles.sql.MySQL;
 import me.foreverincolor.playerprofiles.sql.SQLGetter;
+import me.foreverincolor.playerprofiles.ui.ProfileGUI;
 import me.foreverincolor.playerprofiles.utils.ConfigUtils;
 import me.foreverincolor.playerprofiles.utils.Utils;
 
@@ -55,6 +56,7 @@ public class Main extends JavaPlugin implements Listener {
 		// Other modules
 		new ConfigUtils(this);
 		new ProfileCommands(this, SQL, data);
+		new ProfileGUI(this, SQL, data);
 		new InventoryClickListener(this);
 		new PlayerClickListener(this);
 		saveDefaultConfig();
