@@ -8,4 +8,5 @@ depend: [PlaceholderAPI]
 
 commands:
   profile:
-    description: /profile <playername | set age | set discord>
+    description: view and manage profile
+    usage: /profile <playername | set age | set discord>

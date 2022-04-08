@@ -72,7 +72,7 @@ public class SQLGetter {
 		return false;
 	}
 
-	// Returns player's age
+	// Returns player's name
 	public String getName(UUID uuid) {
 		try {
 			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT name FROM player WHERE uuid=?");
@@ -130,21 +130,27 @@ public class SQLGetter {
 	}
 
 	// Returns player's age
-	public int getAge(UUID uuid) {
+	public String getAge(UUID uuid) {
 		try {
 			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT age FROM player WHERE uuid=?");
 			ps.setString(1, uuid.toString());
 			ResultSet rs = ps.executeQuery();
 
 			int age = 0;
+			String ageString = "Not Set"; 
 			if (rs.next()) {
 				age = rs.getInt("age");
+				if (age == 0) { 
+					ageString = "Not Set";
+				} else { 
+					ageString = "" + age; 
+				}
 			}
-			return age;
+			return ageString;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return "Not Set";
 	}
 
 	// Set the player's discord link
@@ -169,15 +175,18 @@ public class SQLGetter {
 			ps.setString(1, uuid.toString());
 			ResultSet rs = ps.executeQuery();
 
-			String link = "";
+			String discord = "";
 			if (rs.next()) {
-				link = rs.getString("discord");
+				discord = rs.getString("discord");
+				if ((discord == null) || discord.isEmpty()) { 
+					discord = "Not Linked";
+				}
 			}
-			return link;
+			return discord;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "";
+		return "Not Linked";
 	}
 
 }

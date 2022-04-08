@@ -26,7 +26,7 @@ public class PAPIUtils {
 
 	}
 
-	// Checks online statu
+	// Checks online status
 	public void onlineStatus() {
 
 		String onlineStatus = "%player_online%";

@@ -24,6 +24,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class ProfileGUI implements Listener {
 
 	// Constructor
+	@SuppressWarnings("unused")
 	private static Main plugin;
 	public MySQL SQL;
 	public static SQLGetter data;
@@ -44,28 +45,36 @@ public class ProfileGUI implements Listener {
 		OfflinePlayer offlineP = Bukkit.getOfflinePlayer(viewing);
 		PAPIUtils papi = new PAPIUtils(offlineP); // gets Placeholder API info
 
+		// GETTING STATS
+		String online = "&a" + papi.online;
+		String age = "&3" + data.getAge(viewing);
+		String discord = "&3" + data.getDiscord(viewing);
+		String firstJoin = "&3" + papi.firstJoin;
+		String mobKills = "&3" + offlineP.getStatistic(Statistic.MOB_KILLS);
+		String timePlayed = "&3" + String.format("%.2f", (offlineP.getStatistic(Statistic.PLAY_ONE_MINUTE) / 72000.00))
+				+ "&3 hours";
+		String deaths = "&3" + offlineP.getStatistic(Statistic.DEATHS);
+		String distWalk = "&3" + (offlineP.getStatistic(Statistic.WALK_ONE_CM) / 100000) + "&3 km";
+		String level = "&3" + papi.level + "&3 levels";
+
 		// CREATING ALL ITEMS
-
-		// Name
 		Utils.createSkullItem(inv, offlineP, 1, ConfigUtils.slot("name"), ConfigUtils.title("name"),
-				"&3" + data.getName(viewing), "&a" + papi.online);
+				"&3" + data.getName(viewing), online);
 
-		// Other stats, using config
 		if (p == offlineP) {
-			Utils.createItem(inv, "age", "&3" + data.getAge(viewing), "&7right click to change...");
-			Utils.createItem(inv, "discord", "&3" + data.getDiscord(viewing), "&7right click to change...");
+			Utils.createItem(inv, "age", age, "&7right click to change");
+			Utils.createItem(inv, "discord", discord, "&7right click to change");
 		} else {
-			Utils.createItem(inv, "age", "&3" + data.getAge(viewing));
-			Utils.createItem(inv, "discord", "&3" + data.getDiscord(viewing));
+			Utils.createItem(inv, "age", age);
+			Utils.createItem(inv, "discord", discord);
 		}
-		
-		Utils.createItem(inv, "first-join", "&3" + papi.firstJoin);
-		Utils.createItem(inv, "mob-kills", "&3" + offlineP.getStatistic(Statistic.MOB_KILLS));
-		Utils.createItem(inv, "time-played", "&3"
-				+ String.format("%.2f", (offlineP.getStatistic(Statistic.PLAY_ONE_MINUTE) / 72000.00)) + "&3 hours");
-		Utils.createItem(inv, "deaths", "&3" + offlineP.getStatistic(Statistic.DEATHS));
-		Utils.createItem(inv, "dist-walk", "&3" + (offlineP.getStatistic(Statistic.WALK_ONE_CM) / 100000) + "&3 km");
-		Utils.createItem(inv, "level", "&3" + papi.level + "&3 levels");
+
+		Utils.createItem(inv, "first-join", firstJoin);
+		Utils.createItem(inv, "mob-kills", mobKills);
+		Utils.createItem(inv, "time-played", timePlayed);
+		Utils.createItem(inv, "deaths", deaths);
+		Utils.createItem(inv, "dist-walk", distWalk);
+		Utils.createItem(inv, "level", level);
 
 		// Sets the inventory
 		inv.setContents(inv.getContents());
@@ -93,7 +102,7 @@ public class ProfileGUI implements Listener {
 				// Left click: add player
 				p.closeInventory();
 				TextComponent msg = new TextComponent(
-						Utils.chat("&b" + data.getName(viewing) + "&a's Discord: " + data.getDiscord(viewing)));
+						Utils.chat("&b" + data.getName(viewing) + "&b's Discord: &a" + data.getDiscord(viewing)));
 				msg.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, data.getDiscord(viewing)));
 				msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 						new ComponentBuilder(Utils.chat("&7Click to copy!")).create()));

@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.foreverincolor.playerprofiles.commands.ProfileCommands;
+import me.foreverincolor.playerprofiles.commands.ProfileTab;
 import me.foreverincolor.playerprofiles.listeners.InventoryClickListener;
 import me.foreverincolor.playerprofiles.listeners.PlayerClickListener;
 import me.foreverincolor.playerprofiles.sql.MySQL;
@@ -56,6 +57,7 @@ public class Main extends JavaPlugin implements Listener {
 		// Other modules
 		new ConfigUtils(this);
 		new ProfileCommands(this, SQL, data);
+		this.getCommand("profile").setTabCompleter(new ProfileTab());
 		new ProfileGUI(this, SQL, data);
 		new InventoryClickListener(this);
 		new PlayerClickListener(this);

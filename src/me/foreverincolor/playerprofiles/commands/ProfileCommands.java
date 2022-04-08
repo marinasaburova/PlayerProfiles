@@ -53,6 +53,11 @@ public class ProfileCommands implements CommandExecutor {
 
 			// All set commands
 			if (args[0].equalsIgnoreCase("set")) {
+				
+				if (args.length < 2) { 
+					p.sendMessage(Utils.chat("&cUsage: /profile set (discord | age) <value>"));
+					return true; 
+				}
 
 				// SET AGE
 				if (args[1].equalsIgnoreCase("age")) {
@@ -81,19 +86,29 @@ public class ProfileCommands implements CommandExecutor {
 					return true;
 				}
 			}
-			
+
 			// All remove commands
 			if (args[0].equalsIgnoreCase("remove")) {
+				
+				if (args.length != 2) { 
+					p.sendMessage(Utils.chat("&cUsage: /profile remove (discord | age)"));
+					return true; 
+				}
 
 				// REMOVE DISCORD LINK
 				if (args[1].equalsIgnoreCase("discord")) {
-					if (args.length != 2) {
-						p.sendMessage(Utils.chat("&cUsage: /profile remove Discord"));
-						return true;
-					}
-					data.setDiscord(p.getUniqueId(), "none");
+					data.setDiscord(p.getUniqueId(), null);
+					p.sendMessage(Utils.chat("&aYour Discord was removed."));
 					return true;
 				}
+
+				// REMOVE AGE
+				if (args[1].equalsIgnoreCase("age")) {
+					data.setAge(p.getUniqueId(), 0);
+					p.sendMessage(Utils.chat("&aYour age was removed."));
+					return true;
+				}
+				
 			}
 
 			// View others' GUI
@@ -107,7 +122,11 @@ public class ProfileCommands implements CommandExecutor {
 				}
 			} catch (Exception e) {
 				p.sendMessage("Player does not exist!");
+				return true;
 			}
+
+			p.sendMessage(Utils.chat("&cThe command was not recognized"));
+			return true;
 		}
 
 		return false;
