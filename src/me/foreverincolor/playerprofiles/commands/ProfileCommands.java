@@ -65,9 +65,10 @@ public class ProfileCommands implements CommandExecutor {
 						p.sendMessage(Utils.chat("&cUsage: /profile set age <number>"));
 						return true;
 					}
+					
 
 					try {
-						data.setAge(p.getUniqueId(), Integer.parseInt(args[2]));
+						data.setAge(p.getUniqueId(), Integer.parseUnsignedInt(args[2]));
 						p.sendMessage(Utils.chat("&aAge set to " + args[2] + "&a!"));
 					} catch (NumberFormatException e) {
 						p.sendMessage(Utils.chat("&cPlease type in a valid age."));
