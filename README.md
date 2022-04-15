@@ -3,6 +3,13 @@
  
 This is a Minecraft plugin made to enhance the experience of a player on a multiplayer server. When typing in a command OR right clicking on a player, their "profile" will open up with some information. This includes their player name, online status (or the last time they played), their Discord link, age, Minecraft statistics, and more! The player can change their own information for certain statistic (Discord & age). The plugin utilises SQL to store player data, as well as a dependency on PlaceholderAPI. There is a configuration file to make it slighly customizable. 
 This is the first plugin and real Java project I have ever made! Enjoy!
+## Features: 
+- displays common player stats in a "Player Profiles" GUI
+- ability to add, change, remove Discord profile and age in stats
+- access online & offline players' profile through commands
+- right click players to easily view profile
+- support for large servers through SQL database
+- customizable GUI items and display names
 
 ## Info: 
 **Dependencies:** Placeholder API *(required)*</br>
