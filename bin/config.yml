@@ -1,6 +1,6 @@
-# Connection to SQL database is currently mandatory! Update info
-# to match your database
+# Set enable to true to enable SQL. If false, flatfile will be used (data.yml)
 sql:
+   enable: false   
    host: localhost
    port: 3306
    database: playerprofiles
@@ -16,35 +16,44 @@ gui:
       title: '&bName:'
       item: PLAYER_SKULL
       slot: 5
+      enabled: true
    discord:
       title: '&bDiscord:'
       item: END_CRYSTAL
       slot: 14
+      enabled: true
    age:
       title: '&bAge:'
       item: TOTEM_OF_UNDYING
       slot: 13
+      enabled: true
    first-join:
       title: '&bFirst Join:'
       item: COMPASS
       slot: 15
+      enabled: true
    mob-kills:
       title: '&bMobs Killed:'
       item: IRON_SWORD
       slot: 21
+      enabled: true
    time-played:
       title: '&bTotal Time Played:'
       item: CLOCK
       slot: 22
+      enabled: true
    deaths:
       title: '&bDeaths:'
       item: SKELETON_SKULL
       slot: 23
+      enabled: true
    dist-walk:
       title: '&bDistance Walked:'
       item: GRASS_BLOCK
       slot: 24
+      enabled: true
    level:
       title: '&bEnchantment Levels:'
       item: EMERALD
       slot: 25
+      enabled: true

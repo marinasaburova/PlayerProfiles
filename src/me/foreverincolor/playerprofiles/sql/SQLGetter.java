@@ -72,50 +72,54 @@ public class SQLGetter {
 		return false;
 	}
 
-	// Returns player's name
-	public String getName(UUID uuid) {
+	// Set a statistic
+	public void setStat(UUID p, String stat, String value) { 
 		try {
-			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT name FROM player WHERE uuid=?");
-			ps.setString(1, uuid.toString());
-			ResultSet rs = ps.executeQuery();
+			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("UPDATE player SET ?=? WHERE uuid=?");
+			ps.setString(1, stat);
+			ps.setString(2, value);
+			ps.setString(3, p.toString());
+			ps.executeUpdate();
 
-			String name = "";
-			if (rs.next()) {
-				name = rs.getString("name");
-			}
-			return name;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "";
 	}
-
-	// Returns player's uuid
-	public UUID getUUID(String name) {
+	
+	// Remove a statistic
+	public void removeStat(UUID p, String stat) { 
 		try {
-			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT uuid FROM player WHERE name=?");
-			ps.setString(1, name);
+			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("UPDATE player SET ?=? WHERE uuid=?");
+			ps.setString(1, stat);
+			ps.setString(2, null);
+			ps.setString(3, p.toString());
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// Returns value of a statistic
+	public String getStat(UUID p, String stat) {
+		try {
+			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT ? FROM player WHERE uuid=?");
+			ps.setString(1, stat);
+			ps.setString(2, p.toString());
 			ResultSet rs = ps.executeQuery();
 
-			UUID uuid;
-
-			// if uuid is found
+			String value = null;
 			if (rs.next()) {
-				try {
-					uuid = UUID.fromString(rs.getString("uuid"));
-					return uuid;
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-
-				}
+				value = rs.getString(stat);
 			}
-
+			return value;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
+	/*
 	// Set the player's age
 	public void setAge(UUID uuid, int age) {
 		try {
@@ -187,6 +191,6 @@ public class SQLGetter {
 			e.printStackTrace();
 		}
 		return "Not Linked";
-	}
+	}*/
 
 }

@@ -2,16 +2,26 @@ package me.foreverincolor.playerprofiles.utils;
 
 import me.foreverincolor.playerprofiles.Main;
 
-public class ConfigUtils {
+public class ConfigGetter {
 
 	private static Main plugin;
 
 	// Constructor
-	public ConfigUtils(Main plugin) {
-		ConfigUtils.plugin = plugin;
+	public ConfigGetter(Main plugin) {
+		ConfigGetter.plugin = plugin;
 
 	}
-	
+
+	public boolean usingSQL() {
+		boolean isUsing = false;
+
+		if (plugin.getConfig().isSet("sql.enable")) {
+			isUsing = plugin.getConfig().getBoolean("sql.enable");
+		}
+
+		return isUsing;
+	}
+
 	// Returns item type from config
 	public static String item(String stat) {
 		String item;

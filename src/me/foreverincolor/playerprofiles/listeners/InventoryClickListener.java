@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import me.foreverincolor.playerprofiles.Main;
-import me.foreverincolor.playerprofiles.ui.ProfileGUI;
+import me.foreverincolor.playerprofiles.gui.ProfileGUI;
 
 public class InventoryClickListener implements Listener {
 

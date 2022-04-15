@@ -2,28 +2,26 @@ package me.foreverincolor.playerprofiles.commands;
 
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.foreverincolor.playerprofiles.Main;
-import me.foreverincolor.playerprofiles.sql.MySQL;
-import me.foreverincolor.playerprofiles.sql.SQLGetter;
-import me.foreverincolor.playerprofiles.ui.ProfileGUI;
+import me.foreverincolor.playerprofiles.files.FileCoordinator;
+import me.foreverincolor.playerprofiles.gui.ProfileGUI;
 import me.foreverincolor.playerprofiles.utils.Utils;
 
 public class ProfileCommands implements CommandExecutor {
 
 	private Main plugin;
-	public MySQL SQL;
-	public SQLGetter data;
+	private static FileCoordinator file;
 
 	// Constructors
-	public ProfileCommands(Main plugin, MySQL SQL, SQLGetter data) {
+	public ProfileCommands(Main plugin) {
 		this.plugin = plugin;
-		this.SQL = SQL;
-		this.data = data;
+		file = new FileCoordinator(plugin);
 
 		plugin.getCommand("profile").setExecutor(this);
 	}
@@ -45,7 +43,7 @@ public class ProfileCommands implements CommandExecutor {
 
 			// View your own GUI
 			if (args.length == 0) {
-				ProfileGUI inv = new ProfileGUI(plugin, SQL, data);
+				ProfileGUI inv = new ProfileGUI(plugin);
 				p.openInventory(inv.createProfile(p, p.getUniqueId()));
 
 				return true;
@@ -53,10 +51,10 @@ public class ProfileCommands implements CommandExecutor {
 
 			// All set commands
 			if (args[0].equalsIgnoreCase("set")) {
-				
-				if (args.length < 2) { 
+
+				if (args.length < 2) {
 					p.sendMessage(Utils.chat("&cUsage: /profile set (discord | age) <value>"));
-					return true; 
+					return true;
 				}
 
 				// SET AGE
@@ -65,11 +63,11 @@ public class ProfileCommands implements CommandExecutor {
 						p.sendMessage(Utils.chat("&cUsage: /profile set age <number>"));
 						return true;
 					}
-					
 
 					try {
-						data.setAge(p.getUniqueId(), Integer.parseUnsignedInt(args[2]));
-						p.sendMessage(Utils.chat("&aAge set to " + args[2] + "&a!"));
+						int age = Integer.parseUnsignedInt(args[2]);
+						file.setStat(p.getUniqueId(), "age", "" + age);
+						p.sendMessage(Utils.chat("&aAge set to " + age + "&a!"));
 					} catch (NumberFormatException e) {
 						p.sendMessage(Utils.chat("&cPlease type in a valid age."));
 					}
@@ -83,44 +81,47 @@ public class ProfileCommands implements CommandExecutor {
 						p.sendMessage(Utils.chat("&cUsage: /profile set Discord <discord-tag>"));
 						return true;
 					}
-					data.setDiscord(p.getUniqueId(), args[2]);
+					file.setStat(p.getUniqueId(), "discord", args[2]);
+					p.sendMessage(Utils.chat("&aDiscord set to " + args[2] + "&a!"));
 					return true;
 				}
 			}
 
 			// All remove commands
 			if (args[0].equalsIgnoreCase("remove")) {
-				
-				if (args.length != 2) { 
+
+				if (args.length != 2) {
 					p.sendMessage(Utils.chat("&cUsage: /profile remove (discord | age)"));
-					return true; 
+					return true;
 				}
 
 				// REMOVE DISCORD LINK
 				if (args[1].equalsIgnoreCase("discord")) {
-					data.setDiscord(p.getUniqueId(), null);
+					file.removeStat(p.getUniqueId(), "discord");
 					p.sendMessage(Utils.chat("&aYour Discord was removed."));
 					return true;
 				}
 
 				// REMOVE AGE
 				if (args[1].equalsIgnoreCase("age")) {
-					data.setAge(p.getUniqueId(), 0);
+					file.removeStat(p.getUniqueId(), "age");
 					p.sendMessage(Utils.chat("&aYour age was removed."));
 					return true;
 				}
-				
+
 			}
 
 			// View others' GUI
 			try {
-				UUID uuid = data.getUUID(args[0]);
-				if (data.exists(uuid)) {
-					ProfileGUI inv = new ProfileGUI(plugin, SQL, data);
+				UUID uuid = Bukkit.getPlayer(args[0]).getUniqueId();
+				if (file.exists(uuid)) {
+
+					ProfileGUI inv = new ProfileGUI(plugin);
 					p.openInventory(inv.createProfile(p, uuid));
 
 					return true;
 				}
+
 			} catch (Exception e) {
 				p.sendMessage("Player does not exist!");
 				return true;

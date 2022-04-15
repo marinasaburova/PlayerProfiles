@@ -24,10 +24,10 @@ public class Utils {
 		ItemStack item;
 		List<String> lore = new ArrayList<String>();
 
-		item = new ItemStack(Material.getMaterial(ConfigUtils.item(element)), 1);
+		item = new ItemStack(Material.getMaterial(ConfigGetter.item(element)), 1);
 
 		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(Utils.chat(ConfigUtils.title(element)));
+		meta.setDisplayName(Utils.chat(ConfigGetter.title(element)));
 
 		for (String s : loreString) {
 			lore.add(Utils.chat(s));
@@ -37,7 +37,7 @@ public class Utils {
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 
-		inv.setItem(ConfigUtils.slot(element) - 1, item);
+		inv.setItem(ConfigGetter.slot(element) - 1, item);
 
 		return item;
 	}

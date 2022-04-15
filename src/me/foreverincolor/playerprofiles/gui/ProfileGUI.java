@@ -1,4 +1,4 @@
-package me.foreverincolor.playerprofiles.ui;
+package me.foreverincolor.playerprofiles.gui;
 
 import java.util.UUID;
 
@@ -11,9 +11,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.foreverincolor.playerprofiles.Main;
-import me.foreverincolor.playerprofiles.sql.MySQL;
-import me.foreverincolor.playerprofiles.sql.SQLGetter;
-import me.foreverincolor.playerprofiles.utils.ConfigUtils;
+import me.foreverincolor.playerprofiles.files.FileCoordinator;
+import me.foreverincolor.playerprofiles.utils.ConfigGetter;
 import me.foreverincolor.playerprofiles.utils.PAPIUtils;
 import me.foreverincolor.playerprofiles.utils.Utils;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -24,18 +23,15 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class ProfileGUI implements Listener {
 
 	// Constructor
-	@SuppressWarnings("unused")
-	private static Main plugin;
-	public MySQL SQL;
-	public static SQLGetter data;
+	private Main plugin;
+	private static FileCoordinator file;
+
 	public static String inventory_name = "Profile Page";
 	public static UUID viewing;
 
-	public ProfileGUI(Main plugin, MySQL SQL, SQLGetter data) {
-		ProfileGUI.plugin = plugin;
-		this.SQL = SQL;
-		ProfileGUI.data = data;
-
+	public ProfileGUI(Main p) {
+		plugin = p;
+		file = new FileCoordinator(p);
 	}
 
 	// Creates GUI of player being viewed
@@ -46,20 +42,23 @@ public class ProfileGUI implements Listener {
 		PAPIUtils papi = new PAPIUtils(offlineP); // gets Placeholder API info
 
 		// GETTING STATS
-		String online = "&a" + papi.online;
-		String age = "&3" + data.getAge(viewing);
-		String discord = "&3" + data.getDiscord(viewing);
-		String firstJoin = "&3" + papi.firstJoin;
-		String mobKills = "&3" + offlineP.getStatistic(Statistic.MOB_KILLS);
-		String timePlayed = "&3" + String.format("%.2f", (offlineP.getStatistic(Statistic.PLAY_ONE_MINUTE) / 72000.00))
+		String age, discord, name, online, firstJoin, mobKills, timePlayed, deaths, distWalk, level;
+
+		age = "&3" + file.getStat(viewing, "age");
+		discord = "&3" + file.getStat(viewing, "discord");
+		name = Bukkit.getPlayer(viewing).getDisplayName();
+		online = "&a" + papi.online;
+		firstJoin = "&3" + papi.firstJoin;
+		mobKills = "&3" + offlineP.getStatistic(Statistic.MOB_KILLS);
+		timePlayed = "&3" + String.format("%.2f", (offlineP.getStatistic(Statistic.PLAY_ONE_MINUTE) / 72000.00))
 				+ "&3 hours";
-		String deaths = "&3" + offlineP.getStatistic(Statistic.DEATHS);
-		String distWalk = "&3" + (offlineP.getStatistic(Statistic.WALK_ONE_CM) / 100000) + "&3 km";
-		String level = "&3" + papi.level + "&3 levels";
+		deaths = "&3" + offlineP.getStatistic(Statistic.DEATHS);
+		distWalk = "&3" + (offlineP.getStatistic(Statistic.WALK_ONE_CM) / 100000) + "&3 km";
+		level = "&3" + papi.level + "&3 levels";
 
 		// CREATING ALL ITEMS
-		Utils.createSkullItem(inv, offlineP, 1, ConfigUtils.slot("name"), ConfigUtils.title("name"),
-				"&3" + data.getName(viewing), online);
+		Utils.createSkullItem(inv, offlineP, 1, ConfigGetter.slot("name"), ConfigGetter.title("name"), "&3" + name,
+				online);
 
 		if (p == offlineP) {
 			Utils.createItem(inv, "age", age, "&7right click to change");
@@ -85,8 +84,11 @@ public class ProfileGUI implements Listener {
 	@SuppressWarnings("deprecation")
 	public static void clicked(Player p, UUID viewing, boolean rightClick, int slot, ItemStack clicked, Inventory inv) {
 
+		String name = Bukkit.getPlayer(viewing).getDisplayName();
+		String discord = file.getStat(viewing, "discord");
+
 		// DISCORD
-		if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Utils.chat(ConfigUtils.title("discord")))) {
+		if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Utils.chat(ConfigGetter.title("discord")))) {
 
 			// Right click: change discord
 			if (rightClick && p.getUniqueId().equals(viewing)) {
@@ -101,9 +103,8 @@ public class ProfileGUI implements Listener {
 			} else {
 				// Left click: add player
 				p.closeInventory();
-				TextComponent msg = new TextComponent(
-						Utils.chat("&b" + data.getName(viewing) + "&b's Discord: &a" + data.getDiscord(viewing)));
-				msg.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, data.getDiscord(viewing)));
+				TextComponent msg = new TextComponent(Utils.chat("&b" + name + "&b's Discord: &a" + discord));
+				msg.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, discord));
 				msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 						new ComponentBuilder(Utils.chat("&7Click to copy!")).create()));
 				p.spigot().sendMessage(msg);
@@ -111,7 +112,7 @@ public class ProfileGUI implements Listener {
 		}
 
 		// AGE
-		if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Utils.chat(ConfigUtils.title("age")))) {
+		if (clicked.getItemMeta().getDisplayName().equalsIgnoreCase(Utils.chat(ConfigGetter.title("age")))) {
 
 			// Right click: change age
 			if (rightClick && p.getUniqueId().equals(viewing)) {
