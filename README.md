@@ -10,6 +10,7 @@ This is the first plugin and real Java project I have ever made! Enjoy!
 - right click players to easily view profile
 - support for large servers through SQL database
 - customizable GUI items and display names
+- choose flatfile or MySQL database to store player data
 
 ## Info: 
 **Dependencies:** Placeholder API *(required)*</br>
@@ -26,6 +27,5 @@ Within a profile page, you can click on certain elements for more features (such
 **/profile set (age|discord) <value>** - set your age or Discord handle</br>
 
 ### Notes: 
-Ensure you have PlaceholderAPI installed. 
-Connecting to an SQL database is currently mandatory.</br>
+Ensure you have PlaceholderAPI installed. </br>
 Change the info in the config.yml
