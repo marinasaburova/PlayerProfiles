@@ -23,6 +23,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class ProfileGUI implements Listener {
 
 	// Constructor
+	@SuppressWarnings("unused")
 	private Main plugin;
 	private static FileCoordinator file;
 

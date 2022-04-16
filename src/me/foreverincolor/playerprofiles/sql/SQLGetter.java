@@ -73,39 +73,39 @@ public class SQLGetter {
 	}
 
 	// Set a statistic
-	public void setStat(UUID p, String stat, String value) { 
+	public void setStat(UUID p, String stat, String value) {
 		try {
-			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("UPDATE player SET ?=? WHERE uuid=?");
-			ps.setString(1, stat);
-			ps.setString(2, value);
-			ps.setString(3, p.toString());
+			PreparedStatement ps = plugin.SQL.getConnection()
+					.prepareStatement("UPDATE player SET " + stat + "=? WHERE uuid=?");
+			ps.setString(1, value);
+			ps.setString(2, p.toString());
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// Remove a statistic
-	public void removeStat(UUID p, String stat) { 
+	public void removeStat(UUID p, String stat) {
 		try {
-			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("UPDATE player SET ?=? WHERE uuid=?");
-			ps.setString(1, stat);
-			ps.setString(2, null);
-			ps.setString(3, p.toString());
+			PreparedStatement ps = plugin.SQL.getConnection()
+					.prepareStatement("UPDATE player SET " + stat + "=? WHERE uuid=?");
+			ps.setString(1, null);
+			ps.setString(2, p.toString());
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// Returns value of a statistic
 	public String getStat(UUID p, String stat) {
 		try {
-			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT ? FROM player WHERE uuid=?");
-			ps.setString(1, stat);
-			ps.setString(2, p.toString());
+			PreparedStatement ps = plugin.SQL.getConnection()
+					.prepareStatement("SELECT " + stat + " FROM player WHERE uuid=?");
+			ps.setString(1, p.toString());
 			ResultSet rs = ps.executeQuery();
 
 			String value = null;
@@ -120,77 +120,39 @@ public class SQLGetter {
 	}
 
 	/*
-	// Set the player's age
-	public void setAge(UUID uuid, int age) {
-		try {
-			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("UPDATE player SET age=? WHERE uuid=?");
-			ps.setInt(1, age);
-			ps.setString(2, uuid.toString());
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Returns player's age
-	public String getAge(UUID uuid) {
-		try {
-			PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT age FROM player WHERE uuid=?");
-			ps.setString(1, uuid.toString());
-			ResultSet rs = ps.executeQuery();
-
-			int age = 0;
-			String ageString = "Not Set"; 
-			if (rs.next()) {
-				age = rs.getInt("age");
-				if (age == 0) { 
-					ageString = "Not Set";
-				} else { 
-					ageString = "" + age; 
-				}
-			}
-			return ageString;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return "Not Set";
-	}
-
-	// Set the player's discord link
-	public void setDiscord(UUID uuid, String link) {
-		try {
-			PreparedStatement ps = plugin.SQL.getConnection()
-					.prepareStatement("UPDATE player SET discord=? WHERE uuid=?");
-			ps.setString(1, link);
-			ps.setString(2, uuid.toString());
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Returns player's discord link
-	public String getDiscord(UUID uuid) {
-		try {
-			PreparedStatement ps = plugin.SQL.getConnection()
-					.prepareStatement("SELECT discord FROM player WHERE uuid=?");
-			ps.setString(1, uuid.toString());
-			ResultSet rs = ps.executeQuery();
-
-			String discord = "";
-			if (rs.next()) {
-				discord = rs.getString("discord");
-				if ((discord == null) || discord.isEmpty()) { 
-					discord = "Not Linked";
-				}
-			}
-			return discord;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return "Not Linked";
-	}*/
+	 * // Set the player's age public void setAge(UUID uuid, int age) { try {
+	 * PreparedStatement ps = plugin.SQL.getConnection().
+	 * prepareStatement("UPDATE player SET age=? WHERE uuid=?"); ps.setInt(1, age);
+	 * ps.setString(2, uuid.toString()); ps.executeUpdate();
+	 * 
+	 * } catch (SQLException e) { e.printStackTrace(); } }
+	 * 
+	 * // Returns player's age public String getAge(UUID uuid) { try {
+	 * PreparedStatement ps = plugin.SQL.getConnection().
+	 * prepareStatement("SELECT age FROM player WHERE uuid=?"); ps.setString(1,
+	 * uuid.toString()); ResultSet rs = ps.executeQuery();
+	 * 
+	 * int age = 0; String ageString = "Not Set"; if (rs.next()) { age =
+	 * rs.getInt("age"); if (age == 0) { ageString = "Not Set"; } else { ageString =
+	 * "" + age; } } return ageString; } catch (SQLException e) {
+	 * e.printStackTrace(); } return "Not Set"; }
+	 * 
+	 * // Set the player's discord link public void setDiscord(UUID uuid, String
+	 * link) { try { PreparedStatement ps = plugin.SQL.getConnection()
+	 * .prepareStatement("UPDATE player SET discord=? WHERE uuid=?");
+	 * ps.setString(1, link); ps.setString(2, uuid.toString()); ps.executeUpdate();
+	 * 
+	 * } catch (SQLException e) { e.printStackTrace(); } }
+	 * 
+	 * // Returns player's discord link public String getDiscord(UUID uuid) { try {
+	 * PreparedStatement ps = plugin.SQL.getConnection()
+	 * .prepareStatement("SELECT discord FROM player WHERE uuid=?"); ps.setString(1,
+	 * uuid.toString()); ResultSet rs = ps.executeQuery();
+	 * 
+	 * String discord = ""; if (rs.next()) { discord = rs.getString("discord"); if
+	 * ((discord == null) || discord.isEmpty()) { discord = "Not Linked"; } } return
+	 * discord; } catch (SQLException e) { e.printStackTrace(); } return
+	 * "Not Linked"; }
+	 */
 
 }
